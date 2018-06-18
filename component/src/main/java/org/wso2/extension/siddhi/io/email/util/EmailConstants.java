@@ -40,6 +40,7 @@ public class EmailConstants {
     public static final String TO = "to";
     public static final String BCC = "bcc";
     public static final String CC = "cc";
+    public static final String ATTACHMENTS = "attachments";
 
     /**
      * Default values for the email sink configurations.
@@ -117,6 +118,7 @@ public class EmailConstants {
      */
     public static final String EMPTY_STRING = "";
 
+    public static final String COMMA_SEPERATOR = ",";
     /**
      * Valid store types.
      */
