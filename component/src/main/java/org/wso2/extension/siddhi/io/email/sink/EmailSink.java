@@ -393,13 +393,13 @@ public class EmailSink extends Sink {
             ConfigReader configReader, SiddhiAppContext siddhiAppContext) {
         this.configReader = configReader;
         this.optionHolder = optionHolder;
-        validateAndGetRequiredParameters();
         //Server system properties starts with 'mail.smtp'.
         configReader.getAllConfigs().forEach((k, v)-> {
-            if (k.startsWith("mail.smtp")) {
+            if (k.startsWith("mail.smtp") || k.startsWith("mail.store")) {
                 initProperties.put(k, v);
             }
         });
+        validateAndGetRequiredParameters();
     }
 
     /**
@@ -599,6 +599,11 @@ public class EmailSink extends Sink {
         } else {
             optionBcc = optionHolder.validateAndGetOption(EmailConstants.BCC);
         }
+
+        String storeProtocol = optionHolder.validateAndGetStaticValue(
+                EmailConstants.TRANSPORT_MAIL_PUBLISHER_STORE_PROTOCOL, configReader.readConfig(
+                        EmailConstants.TRANSPORT_MAIL_PUBLISHER_STORE_PROTOCOL, EmailConstants.IMAP_STORE));
+        initProperties.put(EmailConstants.TRANSPORT_MAIL_PUBLISHER_STORE_PROTOCOL, storeProtocol);
         
         String contentType = optionHolder.validateAndGetStaticValue(EmailConstants.MAIL_PUBLISHER_CONTENT_TYPE,
                 configReader.readConfig(EmailConstants.MAIL_PUBLISHER_CONTENT_TYPE,
